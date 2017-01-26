@@ -21,18 +21,6 @@ public class CalcStats {
                 .findFirst();
     }
 
-//	private Optional<Integer> filter2(BiPredicate<Integer, Integer> biPredicate) {
-//		if (array.length == 0)
-//			return Optional.empty();
-//		int result = array[0];
-//		for (int i = 1; i < array.length; i++) {
-//			if (biPredicate.test(array[i], result)) {
-//				result = array[i];
-//			}
-//		}
-//		return Optional.of(result);
-//	}
-
     public Optional<Integer> getMinimum() {
         return filter(Comparator.naturalOrder());
     }
