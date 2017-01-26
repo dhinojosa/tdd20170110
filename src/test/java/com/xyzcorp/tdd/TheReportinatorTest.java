@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -15,20 +16,20 @@ public class TheReportinatorTest {
 
 	@Test
 	public void testEmptyList() {
-	    	TheReportinator repo = new TheReportinator(Arrays.asList(), null);
+	    	TheReportinator repo = new TheReportinator(Collections.emptyList(), null);
 	    	List<CheckoutRecord> checkoutRecords = repo.reportViolators(5);
 		assertThat(checkoutRecords).isEmpty();
 	}
-	
+
 	@Test
 	public void testOneItemList() {
 		Supplier<LocalDate> supplier = () -> LocalDate.of(2017, 2, 22);
-		List<CheckoutRecord> init = Arrays.asList(new CheckoutRecord("Dan", "The Beirnstain", LocalDate.of(2000, 2, 22)));
+		List<CheckoutRecord> init = Collections.singletonList(new CheckoutRecord("Dan", "The Beirnstain", LocalDate.of(2000, 2, 22)));
 	    	TheReportinator repo = new TheReportinator(init, supplier);
 	    	List<CheckoutRecord> checkoutRecords = repo.reportViolators(5);
 		assertThat(checkoutRecords).hasSize(1);
 	}
-	
+
 	@Test
 	public void testTwoItemList() {
 		Supplier<LocalDate> supplier = () -> LocalDate.of(2017, 2, 22);
@@ -39,7 +40,7 @@ public class TheReportinatorTest {
 	    	List<CheckoutRecord> checkoutRecords = repo.reportViolators(5);
 		assertThat(checkoutRecords).hasSize(1);
 	}
-	
+
 	@Test
 	public void testFourItemListWithTopThree() {
 		Supplier<LocalDate> supplier = () -> LocalDate.of(2017, 2, 22);
@@ -52,8 +53,8 @@ public class TheReportinatorTest {
 	    	List<CheckoutRecord> checkoutRecords = repo.reportViolators(3);
 		assertThat(checkoutRecords).hasSize(3);
 	}
-	
-	
+
+
 	@Test
 	public void testEveryoneIsGreat() {
 		Supplier<LocalDate> supplier = () -> LocalDate.of(2017, 2, 22);
@@ -66,10 +67,10 @@ public class TheReportinatorTest {
 	    	List<CheckoutRecord> checkoutRecords = repo.reportViolators(10);
 		assertThat(checkoutRecords).hasSize(0);
 	}
-	
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
-	
+
 	@Test
 	public void testLimitIsNegative() {
 		thrown.expect(IllegalArgumentException.class);
@@ -83,7 +84,7 @@ public class TheReportinatorTest {
 	    	TheReportinator repo = new TheReportinator(init, supplier);
 	    	List<CheckoutRecord> checkoutRecords = repo.reportViolators(-10);
 	}
-	
+
 	@Test
 	public void testFourItemListWithTopThreeAsStringReport() {
 		Supplier<LocalDate> supplier = () -> LocalDate.of(2017, 2, 22);
@@ -97,5 +98,5 @@ public class TheReportinatorTest {
 		assertThat(strings).hasSize(3);
 		assertThat(strings).contains("Dan : 120");
 	}
-	
+
 }
